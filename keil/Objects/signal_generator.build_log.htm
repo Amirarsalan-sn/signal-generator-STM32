@@ -31,25 +31,69 @@ main.c(3): warning: In file included from...
 ./LCD16x2Lib/LCD.h(12): warning: // comments are not allowed in this language [-Wcomment]
 //#include "gpio.h"
 ^
-main.c(14): warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
-        GPIO_InitTypeDef PinConfig;
-                         ^
-main.c(31): warning: 'return' will never be executed [-Wunreachable-code-return]
+main.c(4): warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
+int read_keyboard();
+                 ^
+                  void
+main.c(5): warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
+void init_gpio(){
+              ^
+               void
+main.c(5): warning: no previous prototype for function 'init_gpio' [-Wmissing-prototypes]
+void init_gpio(){
+     ^
+main.c(5): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void init_gpio(){
+^
+static 
+main.c(92): warning: initializer for aggregate is not a compile-time constant [-Wc99-extensions]
+                        char str[2] = {(char) command, '\0'};
+                                       ^~~~~~~~~~~~~~
+main.c(96): warning: initializer for aggregate is not a compile-time constant [-Wc99-extensions]
+                        char str[2] = {(char) (command+'0'), '\0'};
+                                       ^~~~~~~~~~~~~~~~~~~~
+main.c(63): warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
+        int i = 0;
+            ^
+main.c(67): warning: unused variable 'duration' [-Wunused-variable]
+        int duration = 0;
+            ^
+main.c(66): warning: unused variable 'freq' [-Wunused-variable]
+        int freq = 0;
+            ^
+main.c(65): warning: unused variable 'signal' [-Wunused-variable]
+        int signal = 0;
+            ^
+main.c(101): warning: 'return' will never be executed [-Wunreachable-code-return]
         return 0;
                ^
-main.c(34): warning: no previous prototype for function 'SysTick_Handler' [-Wmissing-prototypes]
+main.c(103): warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
+int read_keyboard() {
+                 ^
+                  void
+main.c(105): warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
+        uint32_t data = (GPIOA->IDR & (0xf << 3)) >> 3;
+                 ^
+main.c(103): warning: no previous prototype for function 'read_keyboard' [-Wmissing-prototypes]
+int read_keyboard() {
+    ^
+main.c(4): note: this declaration is not a prototype; add 'void' to make it a prototype for a zero-parameter function
+int read_keyboard();
+    ^
+                  void
+main.c(148): warning: no previous prototype for function 'SysTick_Handler' [-Wmissing-prototypes]
 void SysTick_Handler(void)
      ^
-main.c(34): note: declare 'static' if the function is not intended to be used outside of this translation unit
+main.c(148): note: declare 'static' if the function is not intended to be used outside of this translation unit
 void SysTick_Handler(void)
 ^
 static 
-4 warnings generated.
+15 warnings generated.
 compiling main.c...
 linking...
-Program Size: Code=3562 RO-data=470 RW-data=12 ZI-data=1652  
+Program Size: Code=4248 RO-data=504 RW-data=12 ZI-data=1652  
 FromELF: creating hex file...
-".\Objects\signal_generator.axf" - 0 Error(s), 4 Warning(s).
+".\Objects\signal_generator.axf" - 0 Error(s), 15 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -86,15 +130,15 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:CORE:5.6.0
 
    * Component: Keil::Device:STM32Cube Framework:Classic:1.8.1
-      Source file:   MDK/Templates_LL/Src/main.c
       Include file:  CMSIS/Driver/Config/RTE_Device.h
+      Include file:  MDK/Templates/Inc/stm32f4xx_it.h
+      Source file:   MDK/Templates/Src/stm32f4xx_it.c
       Include file:  MDK/Templates/Inc/stm32f4xx_hal_conf.h
       Include file:  MDK/Templates/Inc/main.h
       Source file:   MDK/Templates/Src/main.c
       Include file:  MDK/Templates_LL/Inc/main.h
       Source file:   MDK/Templates/Src/stm32f4xx_hal_msp.c
-      Include file:  MDK/Templates/Inc/stm32f4xx_it.h
-      Source file:   MDK/Templates/Src/stm32f4xx_it.c
+      Source file:   MDK/Templates_LL/Src/main.c
 
    * Component: Keil::Device:STM32Cube HAL:Common:1.8.1
       Include file:  Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
@@ -107,20 +151,20 @@ Package Vendor: Keil
       Source file:   Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c
 
    * Component: Keil::Device:STM32Cube HAL:PWR:1.8.1
-      Source file:   Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c
       Source file:   Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c
+      Source file:   Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c
 
    * Component: Keil::Device:STM32Cube HAL:RCC:1.8.1
-      Source file:   Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c
       Source file:   Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c
+      Source file:   Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c
 
    * Component: Keil::Device:Startup:2.6.3
+      Source file:   Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/system_stm32f4xx.c
+      Source file:   Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/arm/startup_stm32f401xe.s
+      Include file:  Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
       Source file:   MDK/Device/Source/ARM/STM32F401xx_OPT.s
       Source file:   MDK/Device/Source/ARM/STM32F4xx_OTP.s
-      Include file:  Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
-      Source file:   Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/arm/startup_stm32f401xe.s
-      Source file:   Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/system_stm32f4xx.c
-Build Time Elapsed:  00:00:00
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>
