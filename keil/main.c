@@ -56,8 +56,20 @@ void Init_ADC() {
 	ADC1->CR2 |= (1<<0);
 }
 
+void clear_rest(char* msg, int size) {
+	int j = 0;
+	while(msg[j] != '\0') {
+		j++;
+	}
+	while(j < size-1) {
+		msg[j++] = ' ';
+	}
+}
+enum state{keypad_input, freq_input, duration_input, send_data};
+char waves[][4] = {"", "sin", "squ", "tri", "asn", "stp", "saw"};
 int main(void)
 {
+	enum state program_state = keypad_input;
 	SystemCoreClockUpdate();
 	HAL_Init();
 	
@@ -75,7 +87,13 @@ int main(void)
 	int command = 0;
 	int signal = 0;
 	int freq = 0;
+	float min_freq = 1;
+	float max_freq = 1000;
 	int duration = 0;
+	float min_duration = 500;
+	float max_duration = 10000;
+	float v_in = 0;
+	char msg[6];
 	for (i = 0; i <= 1000000 ; i++);
 	LCD_Clear();
 	LCD_Puts(0, 0, "99243047");
@@ -93,29 +111,70 @@ int main(void)
 			LCD_Puts(0,1, "1");
 		}
 	}
-	LCD_Puts(0,1,"Enter key");
+	LCD_Clear();
 	while (1) {
-		/*command = read_keyboard();
-		if (command == -1)
-			continue;
-		LCD_Clear();
-		if ((command == '*') || (command == '#')) {
-			char str[2] = {(char) command, '\0'};
-			LCD_Puts(0, 0, str);
+		switch(program_state) {
+			case keypad_input:
+				for (i = 0; i <= 100000; i++); // for user to let go of the * key.
+				LCD_Puts(0, 0, "Choose signal");
+				LCD_Puts(0, 1, "Enter key");
+				do{
+					signal = read_keyboard();
+				} while(signal == -1);
+				if ((signal < 1) || (signal > 6)) {
+					LCD_Clear();
+					LCD_Puts(0, 0, "not a valid wave");
+					for (i = 0; i <= 2000000; i++);
+					break;
+				}
+				program_state = freq_input;
+				LCD_Clear();
+				break;
+			case freq_input:
+				for (i = 0; i <= 100000; i++); // for user to let go of the * key.
+				LCD_Puts(0, 0, "Frq(#=ok,*=back)");
+				LCD_Puts(0, 1, waves[signal]);
+				freq = Read_ADC();
+				v_in = (float) freq*5/4095;
+				freq = (int) (v_in*(max_freq-min_freq)/5 + min_freq);
+				sprintf(msg, "%d", freq);
+				clear_rest(msg, 6);
+				LCD_Puts(5, 1, msg);
+				
+				command = read_keyboard();
+				if (command == '#') {
+					program_state = duration_input;
+					LCD_Clear();
+				}
+				else if (command == '*') {
+					program_state = keypad_input;
+					LCD_Clear();
+				}
+				break;
+			case duration_input:
+				for (i = 0; i <= 100000; i++); // for user to let go of the * key.
+				LCD_Puts(0, 0, "T  (#=ok,*=back)");
+				LCD_Puts(0, 1, waves[signal]);
+				duration = Read_ADC();
+				v_in = (float) duration*5/4095;
+				duration = (int) (v_in*(max_duration-min_duration)/5 + min_duration);
+				sprintf(msg, "%d", duration);
+				clear_rest(msg, 6);
+				LCD_Puts(5, 1, msg);
+			
+				command = read_keyboard();
+				if (command == '#') {
+					program_state = send_data;
+					LCD_Clear();
+				}
+				else if (command == '*') {
+					program_state = freq_input;
+					LCD_Clear();
+				}
+				break;
+			case send_data:
+				break;
 		}
-		else {
-			char str[2] = {(char) (command+'0'), '\0'};
-			LCD_Puts(0, 0, str);
-		}*/
-		uint16_t value = Read_ADC();
-		float v_in = (float) value*5/4095;
-		v_in *= 100;
-		value = (uint16_t) v_in;
-		char str[10];
-		sprintf(str, "%d", value);
-		LCD_Clear();
-		LCD_Puts(0, 0, str);
-		
 	}
 	return 0;
 }
