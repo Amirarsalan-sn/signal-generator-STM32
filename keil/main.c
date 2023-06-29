@@ -2,50 +2,60 @@
 #include "stm32f4xx.h"
 #include "LCD16x2Lib/LCD.h"
 int read_keyboard();
-void init_gpio(){
+uint16_t Read_ADC();
+void Init_KeyPad(){
 	GPIO_InitTypeDef PinConfig;
 	PinConfig.Pin = GPIO_PIN_0;
 	PinConfig.Mode = GPIO_MODE_OUTPUT_PP;
 	PinConfig.Pull = GPIO_NOPULL;
 	PinConfig.Speed = GPIO_SPEED_FREQ_HIGH;
-	HAL_GPIO_Init(GPIOA, &PinConfig);
+	HAL_GPIO_Init(GPIOC, &PinConfig);
 	
 	PinConfig.Pin = GPIO_PIN_1;
 	PinConfig.Mode = GPIO_MODE_OUTPUT_PP;
 	PinConfig.Pull = GPIO_NOPULL;
 	PinConfig.Speed = GPIO_SPEED_FREQ_HIGH;
-	HAL_GPIO_Init(GPIOA, &PinConfig);
+	HAL_GPIO_Init(GPIOC, &PinConfig);
 	
 	PinConfig.Pin = GPIO_PIN_2;
 	PinConfig.Mode = GPIO_MODE_OUTPUT_PP;
 	PinConfig.Pull = GPIO_NOPULL;
 	PinConfig.Speed = GPIO_SPEED_FREQ_HIGH;
-	HAL_GPIO_Init(GPIOA, &PinConfig);
+	HAL_GPIO_Init(GPIOC, &PinConfig);
 	
 	PinConfig.Pin = GPIO_PIN_3;
 	PinConfig.Mode = GPIO_MODE_INPUT;
 	PinConfig.Pull = GPIO_PULLDOWN;
 	PinConfig.Speed = GPIO_SPEED_FREQ_HIGH;
-	HAL_GPIO_Init(GPIOA, &PinConfig);
+	HAL_GPIO_Init(GPIOC, &PinConfig);
 	
 	PinConfig.Pin = GPIO_PIN_4;
 	PinConfig.Mode = GPIO_MODE_INPUT;
 	PinConfig.Pull = GPIO_PULLDOWN;
 	PinConfig.Speed = GPIO_SPEED_FREQ_HIGH;
-	HAL_GPIO_Init(GPIOA, &PinConfig);
+	HAL_GPIO_Init(GPIOC, &PinConfig);
 	
 	PinConfig.Pin = GPIO_PIN_5;
 	PinConfig.Mode = GPIO_MODE_INPUT;
 	PinConfig.Pull = GPIO_PULLDOWN;
 	PinConfig.Speed = GPIO_SPEED_FREQ_HIGH;
-	HAL_GPIO_Init(GPIOA, &PinConfig);
+	HAL_GPIO_Init(GPIOC, &PinConfig);
 	
 	PinConfig.Pin = GPIO_PIN_6;
 	PinConfig.Mode = GPIO_MODE_INPUT;
 	PinConfig.Pull = GPIO_PULLDOWN;
 	PinConfig.Speed = GPIO_SPEED_FREQ_HIGH;
-	HAL_GPIO_Init(GPIOA, &PinConfig);
+	HAL_GPIO_Init(GPIOC, &PinConfig);
 }
+
+void Init_ADC() {
+	RCC->APB2ENR |= (1<<8);
+	GPIOA->MODER |= 3 << 2;
+	ADC1->SQR3 = 1;
+	ADC1->SQR1 = 0;
+	ADC1->CR2 |= (1<<0);
+}
+
 int main(void)
 {
 	SystemCoreClockUpdate();
@@ -58,7 +68,8 @@ int main(void)
 	
 	
 	LCD_Init();
-	init_gpio();
+	Init_KeyPad();
+	Init_ADC();
 	LCD_Puts(0, 0, "Hello!");
 	int i = 0;
 	int command = 0;
@@ -84,7 +95,7 @@ int main(void)
 	}
 	LCD_Puts(0,1,"Enter key");
 	while (1) {
-		command = read_keyboard();
+		/*command = read_keyboard();
 		if (command == -1)
 			continue;
 		LCD_Clear();
@@ -95,14 +106,23 @@ int main(void)
 		else {
 			char str[2] = {(char) (command+'0'), '\0'};
 			LCD_Puts(0, 0, str);
-		}
+		}*/
+		uint16_t value = Read_ADC();
+		float v_in = (float) value*5/4095;
+		v_in *= 100;
+		value = (uint16_t) v_in;
+		char str[10];
+		sprintf(str, "%d", value);
+		LCD_Clear();
+		LCD_Puts(0, 0, str);
 		
 	}
 	return 0;
 }
+
 int read_keyboard() {
-	GPIOA->ODR = 1;
-	uint32_t data = (GPIOA->IDR & (0xf << 3)) >> 3;
+	GPIOC->ODR = 1;
+	uint32_t data = (GPIOC->IDR & (0xf << 3)) >> 3;
 	if (data !=0 ) {
 		switch(data) {
 			case 1:
@@ -115,8 +135,8 @@ int read_keyboard() {
 				return '*';
 		}
 	}
-	GPIOA->ODR = 2;
-	data = (GPIOA->IDR & (0xf << 3)) >> 3;
+	GPIOC->ODR = 2;
+	data = (GPIOC->IDR & (0xf << 3)) >> 3;
 	if (data !=0 ) {
 		switch(data) {
 			case 1:
@@ -129,8 +149,8 @@ int read_keyboard() {
 				return 0;
 		}
 	}
-	GPIOA->ODR = 4;
-	data = (GPIOA->IDR & (0xf << 3)) >> 3;
+	GPIOC->ODR = 4;
+	data = (GPIOC->IDR & (0xf << 3)) >> 3;
 	if (data !=0 ) {
 		switch(data) {
 			case 1:
@@ -144,6 +164,14 @@ int read_keyboard() {
 		}
 	}
 	return -1;
+}
+
+uint16_t Read_ADC() {
+	ADC1->SR = 0;
+	ADC1->CR2 |= (1<<30);
+	while((ADC1->SR & (1<<1)) == 0);
+	uint16_t result = ADC1->DR & 0x0fff;
+	return result;
 }
 void SysTick_Handler(void)
 {
