@@ -3,6 +3,7 @@
 #include "LCD16x2Lib/LCD.h"
 int read_keyboard();
 uint16_t Read_ADC();
+void send_spi(uint16_t param1, uint16_t param2, uint16_t param3);
 void Init_KeyPad(){
 	GPIO_InitTypeDef PinConfig;
 	PinConfig.Pin = GPIO_PIN_0;
@@ -56,6 +57,23 @@ void Init_ADC() {
 	ADC1->CR2 |= (1<<0);
 }
 
+void Init_spi() {
+	// spi1 clock enable.
+	RCC->APB2ENR |= RCC_APB2ENR_SPI1EN;
+	// PA5 AND PA7 -> ALTERNATIVE MODE, PA4 -> ENABLE SELECT.
+	GPIOA->MODER |= (1<<8) | (2<<10) | (2<<14);
+	// PA5: SCK, PA7: MOSI
+	GPIOA->AFR[0] |= (5<<20) | (5<<28);
+	// PA4, PA5, PA7 -> VERY FAST OUTPUT. MUST CHANGE IF YOU WANT THE SLAVE MODE.
+	GPIOA->OSPEEDR |= (3<<8) | (3<<10) | (2<<14);
+	GPIOA->ODR |= (1<<4);
+	// now lets configure the spi1 as master.
+	// BIDIMODE = 0, BIDIOE = 0, CRCEN = 0, CRCNEXT = 0, DFF = 1, RXONLY = 0, SSM = 1, SSI = 1, LSBFIRST = 0, SPE = 0, BR = 011, MSTR = 1, CPOL = 0, CPHA = 1.
+	// 0000101100011101
+	SPI1->CR1 = 0x0b1d;
+	SPI1->CR1 |= (1<<6);
+}
+
 void clear_rest(char* msg, int size) {
 	int j = 0;
 	while(msg[j] != '\0') {
@@ -82,6 +100,7 @@ int main(void)
 	LCD_Init();
 	Init_KeyPad();
 	Init_ADC();
+	Init_spi();
 	LCD_Puts(0, 0, "Hello!");
 	int i = 0;
 	int command = 0;
@@ -173,6 +192,8 @@ int main(void)
 				}
 				break;
 			case send_data:
+				LCD_Puts(0, 0, "sending data");
+				send_spi((uint16_t) signal, (uint16_t) freq, (uint16_t) duration);			
 				break;
 		}
 	}
@@ -231,6 +252,19 @@ uint16_t Read_ADC() {
 	while((ADC1->SR & (1<<1)) == 0);
 	uint16_t result = ADC1->DR & 0x0fff;
 	return result;
+}
+
+void send_spi(uint16_t param1, uint16_t param2, uint16_t param3) {
+	GPIOA->ODR &= ~(1<<4);
+	while((SPI1->SR & (1<<1)) == 0);
+	SPI1->DR = param1;
+	while((SPI1->SR & (1<<1)) == 0);
+	SPI1->DR = param2;
+	while((SPI1->SR & (1<<1)) == 0);
+	SPI1->DR = param3;
+	while((SPI1->SR & (1<<1)) == 0);
+	while((SPI1->SR & (1<<7)) != 0);
+	GPIOA->ODR |= (1<<4);
 }
 void SysTick_Handler(void)
 {

@@ -21,13 +21,63 @@ Target DLL:      UL2CM3.DLL V1.164.8.0
 Dialog DLL:      TCM.DLL V1.56.4.0
  
 <h2>Project:</h2>
-C:\Users\Arsalan\Desktop\documents\University\az riz\final project\keil\signal_generator.uvprojx
-Project File Date:  06/27/2023
+C:\Users\Arsalan\Desktop\documents\University\az riz\final project\keil_receiver\spi_receiver.uvprojx
+Project File Date:  06/30/2023
 
 <h2>Output:</h2>
 *** Using Compiler 'V6.19', folder: 'D:\keil\keilv_5\ARM\ARMCLANG\Bin'
 Build target 'Target 1'
-".\Objects\signal_generator.axf" - 0 Error(s), 0 Warning(s).
+main.c(3): warning: In file included from...
+./LCD16x2Lib/LCD.h(12): warning: // comments are not allowed in this language [-Wcomment]
+//#include "gpio.h"
+^
+main.c(5): warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
+void Init_spi() {
+             ^
+              void
+main.c(6): warning: // comments are not allowed in this language [-Wcomment]
+        // enabling clock for spi 1
+        ^
+main.c(5): warning: no previous prototype for function 'Init_spi' [-Wmissing-prototypes]
+void Init_spi() {
+     ^
+main.c(5): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void Init_spi() {
+^
+static 
+main.c(24): warning: implicitly declaring library function 'sprintf' with type 'int (char *, const char *, ...)' [-Wimplicit-function-declaration]
+        sprintf(msg, "%d", data[0]);
+        ^
+main.c(24): note: include the header <stdio.h> or explicitly provide a declaration for 'sprintf'
+main.c(21): warning: no previous prototype for function 'print_data' [-Wmissing-prototypes]
+void print_data(uint32_t* data) {
+     ^
+main.c(21): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void print_data(uint32_t* data) {
+^
+static 
+main.c(45): warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
+        uint32_t data[3] = {0, 0, 0};
+                 ^
+main.c(64): warning: 'return' will never be executed [-Wunreachable-code-return]
+        return 0;
+               ^
+main.c(79): warning: no newline at end of file [-Wnewline-eof]
+}
+ ^
+main.c(76): warning: no previous prototype for function 'SysTick_Handler' [-Wmissing-prototypes]
+void SysTick_Handler(void)
+     ^
+main.c(76): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void SysTick_Handler(void)
+^
+static 
+10 warnings generated.
+compiling main.c...
+linking...
+Program Size: Code=10252 RO-data=1020 RW-data=12 ZI-data=1652  
+FromELF: creating hex file...
+".\Objects\spi_receiver.axf" - 0 Error(s), 10 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -64,13 +114,13 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:CORE:5.6.0
 
    * Component: Keil::Device:STM32Cube Framework:Classic:1.8.1
-      Include file:  MDK/Templates_LL/Inc/main.h
-      Source file:   MDK/Templates_LL/Src/main.c
-      Include file:  MDK/Templates/Inc/stm32f4xx_hal_conf.h
+      Include file:  CMSIS/Driver/Config/RTE_Device.h
       Source file:   MDK/Templates/Src/stm32f4xx_hal_msp.c
       Include file:  MDK/Templates/Inc/stm32f4xx_it.h
       Source file:   MDK/Templates/Src/stm32f4xx_it.c
-      Include file:  CMSIS/Driver/Config/RTE_Device.h
+      Include file:  MDK/Templates_LL/Inc/main.h
+      Include file:  MDK/Templates/Inc/stm32f4xx_hal_conf.h
+      Source file:   MDK/Templates_LL/Src/main.c
       Include file:  MDK/Templates/Inc/main.h
       Source file:   MDK/Templates/Src/main.c
 
@@ -85,18 +135,18 @@ Package Vendor: Keil
       Source file:   Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c
 
    * Component: Keil::Device:STM32Cube HAL:PWR:1.8.1
-      Source file:   Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c
       Source file:   Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c
+      Source file:   Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c
 
    * Component: Keil::Device:STM32Cube HAL:RCC:1.8.1
-      Source file:   Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c
       Source file:   Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c
+      Source file:   Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c
 
    * Component: Keil::Device:Startup:2.6.3
       Include file:  Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
-      Source file:   Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/arm/startup_stm32f401xe.s
-      Source file:   MDK/Device/Source/ARM/STM32F4xx_OTP.s
       Source file:   MDK/Device/Source/ARM/STM32F401xx_OPT.s
+      Source file:   MDK/Device/Source/ARM/STM32F4xx_OTP.s
+      Source file:   Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/arm/startup_stm32f401xe.s
       Source file:   Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/system_stm32f4xx.c
 Build Time Elapsed:  00:00:00
 </pre>
