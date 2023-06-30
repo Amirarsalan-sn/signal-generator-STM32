@@ -95,51 +95,51 @@ main.c(167): note: include the header <stdio.h> or explicitly provide a declarat
 main.c(112): warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
         int i = 0;
             ^
-main.c(214): warning: 'return' will never be executed [-Wunreachable-code-return]
+main.c(219): warning: 'return' will never be executed [-Wunreachable-code-return]
         return 0;
                ^
-main.c(217): warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
+main.c(222): warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
 int read_keyboard() {
                  ^
                   void
-main.c(219): warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
+main.c(224): warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
         uint32_t data = (GPIOC->IDR & (0xf << 3)) >> 3;
                  ^
-main.c(217): warning: no previous prototype for function 'read_keyboard' [-Wmissing-prototypes]
+main.c(222): warning: no previous prototype for function 'read_keyboard' [-Wmissing-prototypes]
 int read_keyboard() {
     ^
 main.c(4): note: this declaration is not a prototype; add 'void' to make it a prototype for a zero-parameter function
 int read_keyboard();
     ^
                   void
-main.c(263): warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
+main.c(268): warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
 uint16_t Read_ADC() {
                  ^
                   void
-main.c(267): warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
+main.c(272): warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
         uint16_t result = ADC1->DR & 0x0fff;
                  ^
-main.c(263): warning: no previous prototype for function 'Read_ADC' [-Wmissing-prototypes]
+main.c(268): warning: no previous prototype for function 'Read_ADC' [-Wmissing-prototypes]
 uint16_t Read_ADC() {
          ^
 main.c(5): note: this declaration is not a prototype; add 'void' to make it a prototype for a zero-parameter function
 uint16_t Read_ADC();
          ^
                   void
-main.c(272): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+main.c(277): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
         GPIOA->ODR &= ~(1<<4);
                    ~~ ^~~~~~~
-main.c(283): warning: no previous prototype for function 'SysTick_Handler' [-Wmissing-prototypes]
+main.c(288): warning: no previous prototype for function 'SysTick_Handler' [-Wmissing-prototypes]
 void SysTick_Handler(void)
      ^
-main.c(283): note: declare 'static' if the function is not intended to be used outside of this translation unit
+main.c(288): note: declare 'static' if the function is not intended to be used outside of this translation unit
 void SysTick_Handler(void)
 ^
 static 
 23 warnings generated.
 compiling main.c...
 linking...
-Program Size: Code=12052 RO-data=1164 RW-data=40 ZI-data=1648  
+Program Size: Code=12128 RO-data=1148 RW-data=40 ZI-data=1648  
 FromELF: creating hex file...
 ".\Objects\signal_generator.axf" - 0 Error(s), 23 Warning(s).
 
@@ -178,19 +178,19 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:CORE:5.6.0
 
    * Component: Keil::Device:STM32Cube Framework:Classic:1.8.1
+      Source file:   MDK/Templates/Src/main.c
       Include file:  MDK/Templates_LL/Inc/main.h
       Source file:   MDK/Templates_LL/Src/main.c
-      Include file:  MDK/Templates/Inc/stm32f4xx_hal_conf.h
-      Source file:   MDK/Templates/Src/stm32f4xx_hal_msp.c
       Include file:  MDK/Templates/Inc/stm32f4xx_it.h
-      Source file:   MDK/Templates/Src/stm32f4xx_it.c
+      Include file:  MDK/Templates/Inc/stm32f4xx_hal_conf.h
       Include file:  CMSIS/Driver/Config/RTE_Device.h
+      Source file:   MDK/Templates/Src/stm32f4xx_hal_msp.c
+      Source file:   MDK/Templates/Src/stm32f4xx_it.c
       Include file:  MDK/Templates/Inc/main.h
-      Source file:   MDK/Templates/Src/main.c
 
    * Component: Keil::Device:STM32Cube HAL:Common:1.8.1
-      Include file:  Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
       Source file:   Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c
+      Include file:  Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 
    * Component: Keil::Device:STM32Cube HAL:Cortex:1.8.1
       Source file:   Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c
@@ -207,9 +207,9 @@ Package Vendor: Keil
       Source file:   Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c
 
    * Component: Keil::Device:Startup:2.6.3
-      Include file:  Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
       Source file:   Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/arm/startup_stm32f401xe.s
       Source file:   MDK/Device/Source/ARM/STM32F4xx_OTP.s
+      Include file:  Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
       Source file:   MDK/Device/Source/ARM/STM32F401xx_OPT.s
       Source file:   Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/system_stm32f4xx.c
 Build Time Elapsed:  00:00:00

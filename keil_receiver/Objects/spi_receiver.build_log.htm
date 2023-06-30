@@ -159,29 +159,66 @@ main.c(84): note: declare 'static' if the function is not intended to be used ou
 void Init_timers() {
 ^
 static 
-main.c(108): warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
+main.c(95): warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
+void timer_warm_up() {
+                  ^
+                   void
+main.c(103): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+        TIM5->SR &= ~(1);
+                 ~~ ^~~~
+main.c(105): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+        TIM2->SR &= ~(1);
+                 ~~ ^~~~
+main.c(106): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+        TIM5->CR1 &= ~(1);
+                  ~~ ^~~~
+main.c(107): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+        TIM2->CR1 &= ~(1);
+                  ~~ ^~~~
+main.c(95): warning: no previous prototype for function 'timer_warm_up' [-Wmissing-prototypes]
+void timer_warm_up() {
+     ^
+main.c(95): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void timer_warm_up() {
+^
+static 
+main.c(131): warning: cast from function call of type 'double' to non-matching type 'uint32_t' (aka 'unsigned int') [-Wbad-function-cast]
+                arr_value = (uint32_t) round(f_time);
+                                       ^~~~~~~~~~~~~
+main.c(166): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+                        TIM2->SR &= ~(1);
+                                 ~~ ^~~~
+main.c(168): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+                TIM5->SR &= ~(1);
+                         ~~ ^~~~
+main.c(169): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+                TIM5->CR1 &= ~(1);
+                          ~~ ^~~~
+main.c(170): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+                TIM2->CR1 &= ~(1);
+                          ~~ ^~~~
+main.c(123): warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
         uint32_t data[3] = {0, 0, 0};
                  ^
-main.c(108): warning: unused variable 'data' [-Wunused-variable]
-main.c(114): warning: 'return' will never be executed [-Wunreachable-code-return]
+main.c(176): warning: 'return' will never be executed [-Wunreachable-code-return]
         return 0;
                ^
-main.c(129): warning: no newline at end of file [-Wnewline-eof]
+main.c(191): warning: no newline at end of file [-Wnewline-eof]
 }
  ^
-main.c(126): warning: no previous prototype for function 'SysTick_Handler' [-Wmissing-prototypes]
+main.c(188): warning: no previous prototype for function 'SysTick_Handler' [-Wmissing-prototypes]
 void SysTick_Handler(void)
      ^
-main.c(126): note: declare 'static' if the function is not intended to be used outside of this translation unit
+main.c(188): note: declare 'static' if the function is not intended to be used outside of this translation unit
 void SysTick_Handler(void)
 ^
 static 
-33 warnings generated.
+43 warnings generated.
 compiling main.c...
 linking...
-Program Size: Code=4978 RO-data=454 RW-data=1616 ZI-data=1640  
+Program Size: Code=5834 RO-data=454 RW-data=9616 ZI-data=1640  
 FromELF: creating hex file...
-".\Objects\spi_receiver.axf" - 0 Error(s), 33 Warning(s).
+".\Objects\spi_receiver.axf" - 0 Error(s), 43 Warning(s).
 
 <h2>Software Packages used:</h2>
 

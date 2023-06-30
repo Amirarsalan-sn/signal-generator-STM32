@@ -75,7 +75,7 @@ void print_data(uint32_t* data) {
 void Init_gpio() {
 	GPIOC->MODER = 0x555555;
 	GPIOC->OSPEEDR = 0xAAAAAA;
-	GPIOC->ODR = 5;
+	GPIOC->ODR = 0;
 	GPIOB->MODER |= 1;
 	GPIOB->OSPEEDR |= (1<<1);
 	GPIOB->ODR = 0;
@@ -92,6 +92,21 @@ void Init_timers() {
 	TIM5->CR1 |= (1<<3);
 }
 
+void timer_warm_up() {
+	TIM5->CNT = 0;
+	TIM2->CNT = 0;
+	TIM5->ARR = 5-1;
+	TIM2->ARR = 5-1;
+	TIM5->CR1 |= 1;
+	TIM2->CR1 |= 1;
+	while((TIM5->SR & 1) != 1);
+	TIM5->SR &= ~(1);
+	while((TIM2->SR & 1) != 1);
+	TIM2->SR &= ~(1);
+	TIM5->CR1 &= ~(1);
+	TIM2->CR1 &= ~(1);
+}
+
 int main(void)
 {
 	SystemCoreClockUpdate();
@@ -104,12 +119,59 @@ int main(void)
 	Init_gpio();
 	Init_spi();
 	Init_timers();
-	sin_wave();
+	timer_warm_up();
 	uint32_t data[3] = {0, 0, 0};
+	int index, i;
+	double f_time;
+	uint32_t arr_value;
 	while (1) {
-		/*rec_spi(data);
-		print_data(data);*/
-		
+		index = 0;
+		rec_spi(data);
+		f_time = (1/(((double) data[1])*200)) * 1000000;
+		arr_value = (uint32_t) round(f_time);
+		TIM5->CNT = 0;
+		TIM2->CNT = 0;
+		TIM5->ARR = data[2]-1;
+		TIM2->ARR = arr_value-1;
+		TIM5->CR1 |= 1;
+		TIM2->CR1 |= 1;
+		while((TIM5->SR & 1) != 1) {
+			while((TIM2->SR & 1) != 1);
+			switch(data[0]) {
+				case 1:
+					GPIOC->ODR = analog_to_digital(sin_range[index]);
+					index = (index+1)%200;
+					break;
+				case 2:
+					GPIOC->ODR = analog_to_digital(square_range[index]);
+					index = (index+1)%200;
+					break;
+				case 3:
+					GPIOC->ODR = analog_to_digital(triangle_range[index]);
+					index = (index+1)%200;
+					break;
+				case 4:
+					GPIOC->ODR = analog_to_digital(abs_sin_range[index]);
+					index = (index+1)%200;
+					break;
+				case 5:
+					GPIOC->ODR = analog_to_digital(step_range[index]);
+					index = (index+1)%200;
+					break;
+				case 6:
+					GPIOC->ODR = analog_to_digital(tooth_saw_range[index]);
+					index = (index+1)%200;
+					break;
+			}
+			TIM2->SR &= ~(1);
+		}
+		TIM5->SR &= ~(1);
+		TIM5->CR1 &= ~(1);
+		TIM2->CR1 &= ~(1);
+		GPIOC->ODR = 0;
+		GPIOB->ODR = 1;
+		for (i = 0; i < 10000; i++);
+		GPIOB->ODR = 0;
 	}
 	return 0;
 }

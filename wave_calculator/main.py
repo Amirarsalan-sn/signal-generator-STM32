@@ -37,7 +37,7 @@ def tooth_saw_wave(x):
     return (5 * x) / (2 * math.pi)
 
 
-input_range = [(i * math.pi * 2) / 100 for i in range(100)]
+input_range = [(i * math.pi * 2) / 200 for i in range(200)]
 sin_range = [sin(i) for i in input_range]
 abs_sin_range = [abs_sin(i) for i in input_range]
 square_range = [square_wave(i) for i in input_range]
@@ -46,9 +46,9 @@ step_range = [step_wave(i) for i in input_range]
 tooth_saw_range = [tooth_saw_wave(i) for i in input_range]
 
 print(f"""input_range = {input_range};
-sin_range = {sin_range};
-abs_sin_range = {abs_sin_range};
-square_range = {square_range};
-triangle_range = {triangle_range};
-step_range = {step_range};
-tooth_saw_range = {tooth_saw_range};""")
+double sin_range[200] = {sin_range};
+double abs_sin_range[200] = {abs_sin_range};
+double square_range[200] = {square_range};
+double triangle_range[200] = {triangle_range};
+double step_range[200] = {step_range};
+double tooth_saw_range[200] = {tooth_saw_range};""")

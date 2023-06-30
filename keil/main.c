@@ -201,7 +201,12 @@ int main(void)
 				break;
 			case send_data:
 				send_spi((uint16_t) signal, (uint16_t) freq, (uint16_t) duration);
-				LCD_Puts(0, 0, "Data send, work in progress.");
+				LCD_Puts(0, 0, "Data sent: ");
+				LCD_Puts(12, 0, waves[signal]);
+				sprintf(msg, "%d", freq);
+				LCD_Puts(0, 1, msg);
+				sprintf(msg, "%d", duration);
+				LCD_Puts(8, 1, msg);
 				while ((GPIOC->IDR & (1<<8)) == 0);
 				LCD_Clear();
 				LCD_Puts(0, 0, "work is done!");
