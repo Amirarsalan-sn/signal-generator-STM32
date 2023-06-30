@@ -47,6 +47,13 @@ void Init_KeyPad(){
 	PinConfig.Pull = GPIO_PULLDOWN;
 	PinConfig.Speed = GPIO_SPEED_FREQ_HIGH;
 	HAL_GPIO_Init(GPIOC, &PinConfig);
+	
+	// the done bit to see if the work of slave processor is done.
+	PinConfig.Pin = GPIO_PIN_8;
+	PinConfig.Mode = GPIO_MODE_INPUT;
+	PinConfig.Pull = GPIO_PULLDOWN;
+	PinConfig.Speed = GPIO_SPEED_FREQ_HIGH;
+	HAL_GPIO_Init(GPIOC, &PinConfig);
 }
 
 void Init_ADC() {
@@ -144,6 +151,7 @@ int main(void)
 					LCD_Clear();
 					LCD_Puts(0, 0, "not a valid wave");
 					for (i = 0; i <= 2000000; i++);
+					LCD_Clear();
 					break;
 				}
 				program_state = freq_input;
@@ -192,8 +200,14 @@ int main(void)
 				}
 				break;
 			case send_data:
-				LCD_Puts(0, 0, "sending data");
-				send_spi((uint16_t) signal, (uint16_t) freq, (uint16_t) duration);			
+				send_spi((uint16_t) signal, (uint16_t) freq, (uint16_t) duration);
+				LCD_Puts(0, 0, "Data send, work in progress.");
+				while ((GPIOC->IDR & (1<<8)) == 0);
+				LCD_Clear();
+				LCD_Puts(0, 0, "work is done!");
+				for (i = 0; i <= 2000000; i++);
+				LCD_Clear();
+				program_state = keypad_input;
 				break;
 		}
 	}

@@ -27,7 +27,121 @@ Project File Date:  06/27/2023
 <h2>Output:</h2>
 *** Using Compiler 'V6.19', folder: 'D:\keil\keilv_5\ARM\ARMCLANG\Bin'
 Build target 'Target 1'
-".\Objects\signal_generator.axf" - 0 Error(s), 0 Warning(s).
+main.c(3): warning: In file included from...
+./LCD16x2Lib/LCD.h(12): warning: // comments are not allowed in this language [-Wcomment]
+//#include "gpio.h"
+^
+main.c(4): warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
+int read_keyboard();
+                 ^
+                  void
+main.c(5): warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
+uint16_t Read_ADC();
+                 ^
+                  void
+main.c(7): warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
+void Init_KeyPad(){
+                ^
+                 void
+main.c(51): warning: // comments are not allowed in this language [-Wcomment]
+        // the done bit to see if the work of slave processor is done.
+        ^
+main.c(7): warning: no previous prototype for function 'Init_KeyPad' [-Wmissing-prototypes]
+void Init_KeyPad(){
+     ^
+main.c(7): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void Init_KeyPad(){
+^
+static 
+main.c(59): warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
+void Init_ADC() {
+             ^
+              void
+main.c(59): warning: no previous prototype for function 'Init_ADC' [-Wmissing-prototypes]
+void Init_ADC() {
+     ^
+main.c(59): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void Init_ADC() {
+^
+static 
+main.c(67): warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
+void Init_spi() {
+             ^
+              void
+main.c(67): warning: no previous prototype for function 'Init_spi' [-Wmissing-prototypes]
+void Init_spi() {
+     ^
+main.c(67): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void Init_spi() {
+^
+static 
+main.c(84): warning: no previous prototype for function 'clear_rest' [-Wmissing-prototypes]
+void clear_rest(char* msg, int size) {
+     ^
+main.c(84): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void clear_rest(char* msg, int size) {
+^
+static 
+main.c(94): warning: no previous extern declaration for non-static variable 'waves' [-Wmissing-variable-declarations]
+char waves[][4] = {"", "sin", "squ", "tri", "asn", "stp", "saw"};
+     ^
+main.c(94): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+char waves[][4] = {"", "sin", "squ", "tri", "asn", "stp", "saw"};
+^
+main.c(167): warning: implicitly declaring library function 'sprintf' with type 'int (char *, const char *, ...)' [-Wimplicit-function-declaration]
+                                sprintf(msg, "%d", freq);
+                                ^
+main.c(167): note: include the header <stdio.h> or explicitly provide a declaration for 'sprintf'
+main.c(112): warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
+        int i = 0;
+            ^
+main.c(214): warning: 'return' will never be executed [-Wunreachable-code-return]
+        return 0;
+               ^
+main.c(217): warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
+int read_keyboard() {
+                 ^
+                  void
+main.c(219): warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
+        uint32_t data = (GPIOC->IDR & (0xf << 3)) >> 3;
+                 ^
+main.c(217): warning: no previous prototype for function 'read_keyboard' [-Wmissing-prototypes]
+int read_keyboard() {
+    ^
+main.c(4): note: this declaration is not a prototype; add 'void' to make it a prototype for a zero-parameter function
+int read_keyboard();
+    ^
+                  void
+main.c(263): warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
+uint16_t Read_ADC() {
+                 ^
+                  void
+main.c(267): warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
+        uint16_t result = ADC1->DR & 0x0fff;
+                 ^
+main.c(263): warning: no previous prototype for function 'Read_ADC' [-Wmissing-prototypes]
+uint16_t Read_ADC() {
+         ^
+main.c(5): note: this declaration is not a prototype; add 'void' to make it a prototype for a zero-parameter function
+uint16_t Read_ADC();
+         ^
+                  void
+main.c(272): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+        GPIOA->ODR &= ~(1<<4);
+                   ~~ ^~~~~~~
+main.c(283): warning: no previous prototype for function 'SysTick_Handler' [-Wmissing-prototypes]
+void SysTick_Handler(void)
+     ^
+main.c(283): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void SysTick_Handler(void)
+^
+static 
+23 warnings generated.
+compiling main.c...
+linking...
+Program Size: Code=12052 RO-data=1164 RW-data=40 ZI-data=1648  
+FromELF: creating hex file...
+".\Objects\signal_generator.axf" - 0 Error(s), 23 Warning(s).
 
 <h2>Software Packages used:</h2>
 

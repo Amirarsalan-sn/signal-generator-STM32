@@ -1,6 +1,7 @@
 #include "stm32f4xx_hal.h"
 #include "stm32f4xx.h"
 #include "LCD16x2Lib/LCD.h"
+#include "math.h"
 
 void Init_spi() {
 	// enabling clock for spi 1
@@ -19,6 +20,7 @@ void Init_spi() {
 void rec_spi(uint32_t* data);
 
 void print_data(uint32_t* data) {
+	LCD_Clear();
 	char msg[10];
 	LCD_Puts(0, 0, "data1:");
 	sprintf(msg, "%d", data[0]);
@@ -37,18 +39,15 @@ int main(void)
 	__HAL_RCC_GPIOA_CLK_ENABLE();
 	__HAL_RCC_GPIOB_CLK_ENABLE();
 	__HAL_RCC_GPIOC_CLK_ENABLE();
-	
-	
-	
 	LCD_Init();
 	Init_spi();
+
 	uint32_t data[3] = {0, 0, 0};
 	//char msg[10];
 	//LCD_Puts(0, 0, "waiting for data");
-	rec_spi(data);
-	print_data(data);
 	while (1) {
-		
+		rec_spi(data);
+		print_data(data);
 		/*
 		data2 = rec_spi();
 		data3 = rec_spi();
@@ -71,7 +70,6 @@ void rec_spi(uint32_t* data) {
 	data[1] = SPI1->DR;
 	while((SPI1->SR & (1<<0)) == 0);
 	data[2] = SPI1->DR;
-	
 }
 void SysTick_Handler(void)
 {
