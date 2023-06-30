@@ -24,4 +24,4 @@
   D:\keil\packs\Keil\STM32F4xx_DFP\2.17.0\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_flash_ramfunc.h \
   D:\keil\packs\Keil\STM32F4xx_DFP\2.17.0\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pwr.h \
   D:\keil\packs\Keil\STM32F4xx_DFP\2.17.0\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pwr_ex.h \
-  LCD16x2Lib\LCD.h
+  LCD16x2Lib\LCD.h D:\keil\keilv_5\ARM\ARMCLANG\Bin\..\include\math.h
